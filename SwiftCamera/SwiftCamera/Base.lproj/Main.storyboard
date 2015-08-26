@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SwiftCamera" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mq4-EZ-27n">
+                                <rect key="frame" x="16" y="550" width="189" height="30"/>
+                                <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="カメラ">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="doCamera:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Aog-wa-brF"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0O5-ZX-J8O">
+                                <rect key="frame" x="205" y="550" width="190" height="30"/>
+                                <color key="backgroundColor" name="knobColor" catalog="System" colorSpace="catalog"/>
+                                <state key="normal" title="スタンプ">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="doStamp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nH4-Ta-nv4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3QH-tn-g5J">
+                                <rect key="frame" x="395" y="550" width="189" height="30"/>
+                                <color key="backgroundColor" name="selectedKnobColor" catalog="System" colorSpace="catalog"/>
+                                <state key="normal" title="エフェクト">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="doEffect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="E94-PP-al4"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wMU-T2-Dpj">
+                                <rect key="frame" x="26" y="28" width="548" height="502"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="wMU-T2-Dpj" secondAttribute="height" multiplier="3:4" id="duG-5T-X8L"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="duG-5T-X8L"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="wMU-T2-Dpj" secondAttribute="trailing" constant="10" id="2h9-9c-JBZ"/>
+                            <constraint firstItem="wMU-T2-Dpj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="6JG-52-ql1"/>
+                            <constraint firstItem="3QH-tn-g5J" firstAttribute="top" secondItem="wMU-T2-Dpj" secondAttribute="bottom" constant="20" id="Cb3-Vp-eqw"/>
+                            <constraint firstItem="0O5-ZX-J8O" firstAttribute="width" secondItem="Mq4-EZ-27n" secondAttribute="width" id="Est-QD-BxB"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="wMU-T2-Dpj" secondAttribute="trailing" constant="12" id="H7p-6G-mbP"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3QH-tn-g5J" secondAttribute="trailing" id="L5U-Z3-T9E"/>
+                            <constraint firstAttribute="centerY" secondItem="wMU-T2-Dpj" secondAttribute="centerY" id="Ou7-iJ-oVU"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Mq4-EZ-27n" secondAttribute="bottom" constant="20" id="RHU-TK-7PW"/>
+                            <constraint firstItem="0O5-ZX-J8O" firstAttribute="leading" secondItem="Mq4-EZ-27n" secondAttribute="trailing" id="WPZ-JP-Kfc"/>
+                            <constraint firstItem="wMU-T2-Dpj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="12" id="XaW-AN-7Im"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="3QH-tn-g5J" secondAttribute="bottom" constant="20" id="YBz-t2-F06"/>
+                            <constraint firstItem="wMU-T2-Dpj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="d2T-ek-9Cv"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="0O5-ZX-J8O" secondAttribute="bottom" constant="20" id="iU3-DU-pgK"/>
+                            <constraint firstItem="3QH-tn-g5J" firstAttribute="leading" secondItem="0O5-ZX-J8O" secondAttribute="trailing" id="llp-yD-cyB"/>
+                            <constraint firstItem="wMU-T2-Dpj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="m8U-Jh-jvb"/>
+                            <constraint firstItem="wMU-T2-Dpj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="qHY-xG-6bS"/>
+                            <constraint firstItem="Mq4-EZ-27n" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="sj3-gd-gIq"/>
+                            <constraint firstItem="Mq4-EZ-27n" firstAttribute="width" secondItem="3QH-tn-g5J" secondAttribute="width" id="uCM-sf-LPs"/>
+                            <constraint firstItem="3QH-tn-g5J" firstAttribute="top" secondItem="wMU-T2-Dpj" secondAttribute="bottom" constant="8" id="vT9-vg-G12"/>
+                            <constraint firstItem="3QH-tn-g5J" firstAttribute="top" secondItem="wMU-T2-Dpj" secondAttribute="bottom" constant="20" id="wx8-nU-YIn"/>
+                            <constraint firstAttribute="centerX" secondItem="wMU-T2-Dpj" secondAttribute="centerX" id="x1a-T9-UY6"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="H7p-6G-mbP"/>
+                                <exclude reference="Ou7-iJ-oVU"/>
+                                <exclude reference="XaW-AN-7Im"/>
+                                <exclude reference="m8U-Jh-jvb"/>
+                                <exclude reference="qHY-xG-6bS"/>
+                                <exclude reference="x1a-T9-UY6"/>
+                                <exclude reference="vT9-vg-G12"/>
+                                <exclude reference="wx8-nU-YIn"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="imagePicture" destination="wMU-T2-Dpj" id="b1u-oG-g0i"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>
