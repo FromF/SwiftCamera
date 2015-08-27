@@ -47,7 +47,7 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
         }
         
         // 検出器生成
-        let options:Dictionary = [CIDetectorAccuracy:CIDetectorAccuracyLow]
+        let options:Dictionary = [CIDetectorAccuracy:CIDetectorAccuracyHigh]
         let detector:CIDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: options)
         
         // 検出
@@ -103,12 +103,19 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
             // 比率計算
             let widthScale:CGFloat = imagePicture.frame.size.width / imagePicture.image!.size.width
             let heightScale:CGFloat = imagePicture.frame.size.height / imagePicture.image!.size.height
+            let scale:CGFloat = min(widthScale, heightScale)
             
             // 画像のxとy、widthとheightのサイズを比率に合わせて変更
-            faceRect.origin.x *= widthScale
-            faceRect.origin.y *= heightScale
-            faceRect.size.width *= widthScale
-            faceRect.size.height *= heightScale
+            faceRect.origin.x *= scale
+            faceRect.origin.y *= scale
+            faceRect.size.width *= scale
+            faceRect.size.height *= scale
+            
+            // ImageViewの余白部分をオフセットさせる
+            faceRect.origin.x += (imagePicture.frame.size.width - (imagePicture.image!.size.width * scale)) / 2
+            faceRect.origin.y += (imagePicture.frame.size.height - (imagePicture.image!.size.height * scale)) / 2
+            
+            // 画像のxとyの位置を空白場所から画像の始点にオフセットする
             
             // UIImageViewを作成
             let kImage:UIImage = UIImage(named: "kaeru")!
