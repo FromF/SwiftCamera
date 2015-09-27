@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mq4-EZ-27n">
-                                <rect key="frame" x="16" y="550" width="189" height="30"/>
+                                <rect key="frame" x="16" y="550" width="189.5" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="カメラ">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -29,8 +29,8 @@
                                     <action selector="doCamera:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Aog-wa-brF"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0O5-ZX-J8O">
-                                <rect key="frame" x="205" y="550" width="190" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0O5-ZX-J8O">
+                                <rect key="frame" x="205" y="550" width="189.5" height="30"/>
                                 <color key="backgroundColor" name="knobColor" catalog="System" colorSpace="catalog"/>
                                 <state key="normal" title="スタンプ">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -41,7 +41,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3QH-tn-g5J">
-                                <rect key="frame" x="395" y="550" width="189" height="30"/>
+                                <rect key="frame" x="394" y="550" width="189.5" height="30"/>
                                 <color key="backgroundColor" name="selectedKnobColor" catalog="System" colorSpace="catalog"/>
                                 <state key="normal" title="エフェクト">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -69,6 +69,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="wMU-T2-Dpj" secondAttribute="trailing" constant="10" id="2h9-9c-JBZ"/>
                             <constraint firstItem="wMU-T2-Dpj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="6JG-52-ql1"/>
                             <constraint firstItem="wMU-T2-Dpj" firstAttribute="bottom" secondItem="3QH-tn-g5J" secondAttribute="top" constant="-20" id="Cb3-Vp-eqw"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3QH-tn-g5J" secondAttribute="trailing" id="DLz-hd-DPV"/>
                             <constraint firstItem="0O5-ZX-J8O" firstAttribute="width" secondItem="Mq4-EZ-27n" secondAttribute="width" id="Est-QD-BxB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="wMU-T2-Dpj" secondAttribute="trailing" constant="12" id="H7p-6G-mbP"/>
                             <constraint firstAttribute="trailingMargin" secondItem="3QH-tn-g5J" secondAttribute="trailing" id="L5U-Z3-T9E"/>
@@ -98,6 +99,7 @@
                                 <exclude reference="m8U-Jh-jvb"/>
                                 <exclude reference="qHY-xG-6bS"/>
                                 <exclude reference="x1a-T9-UY6"/>
+                                <exclude reference="L5U-Z3-T9E"/>
                                 <exclude reference="vT9-vg-G12"/>
                                 <exclude reference="wx8-nU-YIn"/>
                             </mask>

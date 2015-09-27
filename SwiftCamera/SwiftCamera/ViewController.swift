@@ -55,11 +55,17 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
         let imageOptions:Dictionary = [CIDetectorImageOrientation : NSNumber(int: 6)]
         let array = detector.featuresInImage(ciImage, options: imageOptions)
         
+        //context
+        UIGraphicsBeginImageContext(imagePicture.image!.size)
+        imagePicture.image!.drawInRect(CGRectMake(0,0,imagePicture.image!.size.width,imagePicture.image!.size.height))
         // 検出されたデータを取得
         for var i:Int = 0 ; i < array.count ; i++ {
             let faceFeature:CIFaceFeature = array[i] as! CIFaceFeature
             drawMeganeImage(faceFeature)
         }
+        let drawedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        imagePicture.image = drawedImage
     }
     
     @IBAction func doEffect(sender: AnyObject) {
@@ -89,44 +95,27 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
     //MARK:-DrawStamp
     func drawMeganeImage(faceFeature:CIFaceFeature) {
         if faceFeature.hasLeftEyePosition && faceFeature.hasRightEyePosition && faceFeature.hasMouthPosition {
-            
             // 顔のサイズ情報を取得
-            var faceRect:CGRect = faceFeature.bounds
-            // 写真の向きで検出されたXとYを逆さにセット
-            var temp:CGFloat = faceRect.size.width
-            faceRect.size.width = faceRect.size.height
-            faceRect.size.height = temp
-            temp = faceRect.origin.x
-            faceRect.origin.x = faceRect.origin.y
-            faceRect.origin.y = temp
+            let faceRect:CGRect = faceFeature.bounds
             
-            // 比率計算
+            // スタンプ画像と顔認識結果の幅高さの比率計算
             let widthScale:CGFloat = imagePicture.frame.size.width / imagePicture.image!.size.width
             let heightScale:CGFloat = imagePicture.frame.size.height / imagePicture.image!.size.height
-            let scale:CGFloat = min(widthScale, heightScale)
+            let scale:CGFloat = max(widthScale, heightScale)
             
-            // 画像のxとy、widthとheightのサイズを比率に合わせて変更
-            faceRect.origin.x *= scale
-            faceRect.origin.y *= scale
-            faceRect.size.width *= scale
-            faceRect.size.height *= scale
+            //スタンプ画像のサイズを求めるために顔認識結果から比率計算した後に上下方向のオフセット量を算出する
+            let stampSize:CGSize = CGSizeMake(faceRect.size.width * scale, faceRect.size.height * scale)
+            let stampOffset_x : CGFloat = (stampSize.width - faceRect.size.width) / 2
+            let stampOffset_y : CGFloat = (stampSize.height - faceRect.size.height) / 2
             
-            // ImageViewの余白部分をオフセットさせる
-            faceRect.origin.x += (imagePicture.frame.size.width - (imagePicture.image!.size.width * scale)) / 2
-            faceRect.origin.y += (imagePicture.frame.size.height - (imagePicture.image!.size.height * scale)) / 2
-            
-            // 画像のxとyの位置を空白場所から画像の始点にオフセットする
-            
-            // UIImageViewを作成
-            let kImage:UIImage = UIImage(named: "kaeru")!
-            let kIMageView:UIImageView = UIImageView(image: kImage)
-            kIMageView.contentMode = UIViewContentMode.ScaleAspectFit
-            
-            // 画像のリサイズ
-            kIMageView.frame = faceRect
-            
-            // レイヤを撮影した写真に重ねる
-            imagePicture.addSubview(kIMageView)
+            //スタンプ画像のRect
+            var stampRect : CGRect = CGRectMake(faceRect.origin.x - stampOffset_x, faceRect.origin.y - stampOffset_y, faceRect.size.width * scale, faceRect.size.height * scale)
+
+            //上下座標が逆なので逆転させる
+            stampRect.origin.y = imagePicture.image!.size.height - stampRect.origin.y - stampRect.size.height
+
+            let kImage:UIImage? = UIImage(named: "kaeru")
+            kImage?.drawInRect(stampRect)
         }
     }
 
