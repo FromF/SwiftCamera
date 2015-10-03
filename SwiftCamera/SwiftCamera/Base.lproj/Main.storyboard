@@ -19,8 +19,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mq4-EZ-27n">
-                                <rect key="frame" x="16" y="550" width="189.5" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mq4-EZ-27n">
+                                <rect key="frame" x="20" y="550" width="140" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="カメラ">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -30,8 +30,8 @@
                                     <action selector="doCamera:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Aog-wa-brF"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0O5-ZX-J8O">
-                                <rect key="frame" x="205" y="550" width="189.5" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0O5-ZX-J8O">
+                                <rect key="frame" x="160" y="550" width="140" height="30"/>
                                 <color key="backgroundColor" name="knobColor" catalog="System" colorSpace="catalog"/>
                                 <state key="normal" title="スタンプ">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -41,8 +41,8 @@
                                     <action selector="doStamp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nH4-Ta-nv4"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3QH-tn-g5J">
-                                <rect key="frame" x="394" y="550" width="189.5" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3QH-tn-g5J">
+                                <rect key="frame" x="300.5" y="550" width="140" height="30"/>
                                 <color key="backgroundColor" name="selectedKnobColor" catalog="System" colorSpace="catalog"/>
                                 <state key="normal" title="エフェクト">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -52,8 +52,8 @@
                                     <action selector="doEffect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="E94-PP-al4"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wMU-T2-Dpj">
-                                <rect key="frame" x="26" y="28" width="548" height="502"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wMU-T2-Dpj">
+                                <rect key="frame" x="30" y="28" width="540" height="502"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="wMU-T2-Dpj" secondAttribute="height" multiplier="3:4" id="duG-5T-X8L"/>
@@ -64,6 +64,19 @@
                                     </mask>
                                 </variation>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rI7-Tr-RD3">
+                                <rect key="frame" x="440.5" y="550" width="139.5" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.43529412150000002" blue="0.81176471709999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="N3m-4g-Trp"/>
+                                </constraints>
+                                <state key="normal" title="保存系">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="doSaveImage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VnW-TQ-8jT"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -79,8 +92,11 @@
                             <constraint firstItem="0O5-ZX-J8O" firstAttribute="leading" secondItem="Mq4-EZ-27n" secondAttribute="trailing" id="WPZ-JP-Kfc"/>
                             <constraint firstItem="wMU-T2-Dpj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="12" id="XaW-AN-7Im"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="3QH-tn-g5J" secondAttribute="bottom" constant="20" id="YBz-t2-F06"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="rI7-Tr-RD3" secondAttribute="bottom" constant="20" id="YWk-l8-SLi"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wMU-T2-Dpj" secondAttribute="bottom" constant="70" id="Yzs-UV-dxA"/>
                             <constraint firstItem="wMU-T2-Dpj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="d2T-ek-9Cv"/>
+                            <constraint firstItem="Mq4-EZ-27n" firstAttribute="width" secondItem="rI7-Tr-RD3" secondAttribute="width" id="fA9-RA-Hbf"/>
+                            <constraint firstItem="rI7-Tr-RD3" firstAttribute="leading" secondItem="3QH-tn-g5J" secondAttribute="trailing" id="hEq-Oe-8F0"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="0O5-ZX-J8O" secondAttribute="bottom" constant="20" id="iU3-DU-pgK"/>
                             <constraint firstItem="3QH-tn-g5J" firstAttribute="leading" secondItem="0O5-ZX-J8O" secondAttribute="trailing" id="llp-yD-cyB"/>
                             <constraint firstItem="wMU-T2-Dpj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="m8U-Jh-jvb"/>
@@ -90,6 +106,7 @@
                             <constraint firstItem="3QH-tn-g5J" firstAttribute="top" secondItem="wMU-T2-Dpj" secondAttribute="bottom" constant="8" id="vT9-vg-G12"/>
                             <constraint firstItem="3QH-tn-g5J" firstAttribute="top" secondItem="wMU-T2-Dpj" secondAttribute="bottom" constant="20" id="wx8-nU-YIn"/>
                             <constraint firstAttribute="centerX" secondItem="wMU-T2-Dpj" secondAttribute="centerX" id="x1a-T9-UY6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="rI7-Tr-RD3" secondAttribute="trailing" id="yl8-rn-yTO"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -100,6 +117,7 @@
                                 <exclude reference="m8U-Jh-jvb"/>
                                 <exclude reference="qHY-xG-6bS"/>
                                 <exclude reference="x1a-T9-UY6"/>
+                                <exclude reference="DLz-hd-DPV"/>
                                 <exclude reference="L5U-Z3-T9E"/>
                                 <exclude reference="vT9-vg-G12"/>
                                 <exclude reference="wx8-nU-YIn"/>
@@ -112,6 +130,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="280" y="308"/>
         </scene>
     </scenes>
 </document>

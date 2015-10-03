@@ -162,7 +162,7 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
             kImage?.drawInRect(faceRect)
         }
     }
-    
+
     //MARK:-DrawStamp
     func convertImage(image:UIImage) -> UIImage
     {
@@ -174,6 +174,16 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
         UIGraphicsEndImageContext()
         
         return returnImage
+    }
+    
+    
+    //SNSシェア系
+    @IBAction func doSaveImage(sender: AnyObject) {
+        //let activityViewContoller : UIActivityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        
+        let activityViewContoller : UIActivityViewController = UIActivityViewController(activityItems:[image!], applicationActivities: nil)
+        
+        self.presentViewController(activityViewContoller, animated: true, completion: nil)
     }
 }
 
