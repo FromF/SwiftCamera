@@ -7,15 +7,23 @@
 //
 
 import UIKit
+import ImageIO
 
 class ViewController: UIViewController , UINavigationControllerDelegate , UIImagePickerControllerDelegate {
     //UI
     @IBOutlet weak var imagePicture: UIImageView!
     
+    ///撮影した写真
+    var image : UIImage?
+    ///画像の向き
+    var orientation : UIImageOrientation = .Up
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        image = UIImage(named: "Image")
+        imagePicture.image = image
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,24 +48,18 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
     }
     
     @IBAction func doStamp(sender: AnyObject) {
-        // 2枚目以降のときにカエル画像を消す
-        for var i:Int = 0 ; i < imagePicture.subviews.count ; i++ {
-            let view:AnyObject = imagePicture.subviews[i]
-            view.removeFromSuperview()
-        }
-        
         // 検出器生成
         let options:Dictionary = [CIDetectorAccuracy:CIDetectorAccuracyHigh]
         let detector:CIDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: options)
         
         // 検出
-        let ciImage:CIImage = CIImage(CGImage: imagePicture.image?.CGImage)
+        let ciImage:CIImage = CIImage(CGImage: (image!.CGImage)!)
         let imageOptions:Dictionary = [CIDetectorImageOrientation : NSNumber(int: 6)]
         let array = detector.featuresInImage(ciImage, options: imageOptions)
         
         //context
-        UIGraphicsBeginImageContext(imagePicture.image!.size)
-        imagePicture.image!.drawInRect(CGRectMake(0,0,imagePicture.image!.size.width,imagePicture.image!.size.height))
+        UIGraphicsBeginImageContext(image!.size)
+        image!.drawInRect(CGRectMake(0,0,image!.size.width,image!.size.height))
         // 検出されたデータを取得
         for var i:Int = 0 ; i < array.count ; i++ {
             let faceFeature:CIFaceFeature = array[i] as! CIFaceFeature
@@ -69,20 +71,61 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
     }
     
     @IBAction func doEffect(sender: AnyObject) {
-        let ciImage:CIImage = CIImage(CGImage: imagePicture.image?.CGImage)
-        let ciFilter:CIFilter = CIFilter(name: "CIPhotoEffectInstant")
+        let ciImage:CIImage = CIImage(CGImage: (image?.CGImage)!)
+        let ciFilter:CIFilter = CIFilter(name: "CIPhotoEffectInstant")!
         ciFilter.setValue(ciImage, forKey: kCIInputImageKey)
         let ciContext:CIContext = CIContext(options: nil)
-        let cgimg:CGImageRef = ciContext.createCGImage(ciFilter.outputImage, fromRect:ciFilter.outputImage.extent())
+        let cgimg:CGImageRef = ciContext.createCGImage(ciFilter.outputImage!, fromRect:ciFilter.outputImage!.extent)
         
-        imagePicture.image = UIImage(CGImage: cgimg, scale: 1.0, orientation:UIImageOrientation.Right)
+        imagePicture.image = UIImage(CGImage: cgimg, scale: 1.0, orientation:UIImageOrientation.Up)
     }
     
     //MARK:-UIImagePickerControllerDelegate
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         // 撮影画像を取得
-        imagePicture.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        image = convertImage(info[UIImagePickerControllerOriginalImage] as! UIImage)
+        imagePicture.image = image
         
+        //写真のメターデータを取得
+        let metadata = info[UIImagePickerControllerMediaMetadata] as? NSDictionary
+        
+        // Exifの参照を取得
+        //let exif = metadata?.objectForKey(kCGImagePropertyExifDictionary) as? NSDictionary
+        
+        // 画像の向きを取得
+        /*
+        *   1  =  0th row is at the top, and 0th column is on the left.
+        *   2  =  0th row is at the top, and 0th column is on the right.
+        *   3  =  0th row is at the bottom, and 0th column is on the right.
+        *   4  =  0th row is at the bottom, and 0th column is on the left.
+        *   5  =  0th row is on the left, and 0th column is the top.
+        *   6  =  0th row is on the right, and 0th column is the top.
+        *   7  =  0th row is on the right, and 0th column is the bottom.
+        *   8  =  0th row is on the left, and 0th column is the bottom.
+        */
+        let exif_orientation:Int32 = (metadata?.objectForKey(kCGImagePropertyOrientation)?.intValue)!
+        
+        switch exif_orientation {
+        case 1:
+            orientation = .Left
+        case 2:
+            orientation = .Right
+        case 3:
+            orientation = .Right
+        case 4:
+            orientation = .Left
+        case 5:
+            orientation = .Up
+        case 6:
+            orientation = .Up
+        case 7:
+            orientation = .Down
+        case 8:
+            orientation = .Down
+        default:
+            orientation = .Up
+        }
+
         // カメラUIを閉じる
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -112,12 +155,25 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
             var stampRect : CGRect = CGRectMake(faceRect.origin.x - stampOffset_x, faceRect.origin.y - stampOffset_y, faceRect.size.width * scale, faceRect.size.height * scale)
 
             //上下座標が逆なので逆転させる
-            stampRect.origin.y = imagePicture.image!.size.height - stampRect.origin.y - stampRect.size.height
+            stampRect.origin.y = image!.size.height - stampRect.origin.y - stampRect.size.height
 
             let kImage:UIImage? = UIImage(named: "kaeru")
-            kImage?.drawInRect(stampRect)
+            //kImage?.drawInRect(stampRect)
+            kImage?.drawInRect(faceRect)
         }
     }
-
+    
+    //MARK:-DrawStamp
+    func convertImage(image:UIImage) -> UIImage
+    {
+        UIGraphicsBeginImageContext(image.size)
+        let context = UIGraphicsGetCurrentContext()
+        CGContextSetInterpolationQuality(context, .High)
+        image.drawInRect(CGRectMake(0, 0, image.size.width, image.size.height))
+        let returnImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return returnImage
+    }
 }
 
