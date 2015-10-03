@@ -15,12 +15,14 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
     
     ///撮影した写真
     var image : UIImage?
-
+    ///保存対象の写真
+    var saveImage : UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         image = UIImage(named: "Image")
+        saveImage = image
         imagePicture.image = image
     }
 
@@ -62,9 +64,9 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
             let faceFeature:CIFaceFeature = array[i] as! CIFaceFeature
             drawMeganeImage(faceFeature)
         }
-        let drawedImage = UIGraphicsGetImageFromCurrentImageContext()
+        saveImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        imagePicture.image = drawedImage
+        imagePicture.image = saveImage
     }
     
     @IBAction func doEffect(sender: AnyObject) {
@@ -74,7 +76,8 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
         let ciContext:CIContext = CIContext(options: nil)
         let cgimg:CGImageRef = ciContext.createCGImage(ciFilter.outputImage!, fromRect:ciFilter.outputImage!.extent)
         
-        imagePicture.image = UIImage(CGImage: cgimg, scale: 1.0, orientation:UIImageOrientation.Up)
+        saveImage = UIImage(CGImage: cgimg, scale: 1.0, orientation:UIImageOrientation.Up)
+        imagePicture.image = saveImage
     }
     
     //MARK:-UIImagePickerControllerDelegate
@@ -127,7 +130,7 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
     @IBAction func doSaveImage(sender: AnyObject) {
         //let activityViewContoller : UIActivityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         
-        let activityViewContoller : UIActivityViewController = UIActivityViewController(activityItems:[image!], applicationActivities: nil)
+        let activityViewContoller : UIActivityViewController = UIActivityViewController(activityItems:[saveImage!], applicationActivities: nil)
         
         self.presentViewController(activityViewContoller, animated: true, completion: nil)
     }
