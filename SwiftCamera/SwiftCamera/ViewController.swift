@@ -15,8 +15,6 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
     
     ///撮影した写真
     var image : UIImage?
-    ///画像の向き
-    var orientation : UIImageOrientation = .Up
 
     
     override func viewDidLoad() {
@@ -54,8 +52,7 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
         
         // 検出
         let ciImage:CIImage = CIImage(CGImage: (image!.CGImage)!)
-        let imageOptions:Dictionary = [CIDetectorImageOrientation : NSNumber(int: 6)]
-        let array = detector.featuresInImage(ciImage, options: imageOptions)
+        let array = detector.featuresInImage(ciImage, options: nil)
         
         //context
         UIGraphicsBeginImageContext(image!.size)
@@ -87,45 +84,8 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
         imagePicture.image = image
         
         //写真のメターデータを取得
-        let metadata = info[UIImagePickerControllerMediaMetadata] as? NSDictionary
+        //let metadata = info[UIImagePickerControllerMediaMetadata] as? NSDictionary
         
-        // Exifの参照を取得
-        //let exif = metadata?.objectForKey(kCGImagePropertyExifDictionary) as? NSDictionary
-        
-        // 画像の向きを取得
-        /*
-        *   1  =  0th row is at the top, and 0th column is on the left.
-        *   2  =  0th row is at the top, and 0th column is on the right.
-        *   3  =  0th row is at the bottom, and 0th column is on the right.
-        *   4  =  0th row is at the bottom, and 0th column is on the left.
-        *   5  =  0th row is on the left, and 0th column is the top.
-        *   6  =  0th row is on the right, and 0th column is the top.
-        *   7  =  0th row is on the right, and 0th column is the bottom.
-        *   8  =  0th row is on the left, and 0th column is the bottom.
-        */
-        let exif_orientation:Int32 = (metadata?.objectForKey(kCGImagePropertyOrientation)?.intValue)!
-        
-        switch exif_orientation {
-        case 1:
-            orientation = .Left
-        case 2:
-            orientation = .Right
-        case 3:
-            orientation = .Right
-        case 4:
-            orientation = .Left
-        case 5:
-            orientation = .Up
-        case 6:
-            orientation = .Up
-        case 7:
-            orientation = .Down
-        case 8:
-            orientation = .Down
-        default:
-            orientation = .Up
-        }
-
         // カメラUIを閉じる
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -139,26 +99,12 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
     func drawMeganeImage(faceFeature:CIFaceFeature) {
         if faceFeature.hasLeftEyePosition && faceFeature.hasRightEyePosition && faceFeature.hasMouthPosition {
             // 顔のサイズ情報を取得
-            let faceRect:CGRect = faceFeature.bounds
+            var faceRect:CGRect = faceFeature.bounds
             
-            // スタンプ画像と顔認識結果の幅高さの比率計算
-            let widthScale:CGFloat = imagePicture.frame.size.width / imagePicture.image!.size.width
-            let heightScale:CGFloat = imagePicture.frame.size.height / imagePicture.image!.size.height
-            let scale:CGFloat = max(widthScale, heightScale)
-            
-            //スタンプ画像のサイズを求めるために顔認識結果から比率計算した後に上下方向のオフセット量を算出する
-            let stampSize:CGSize = CGSizeMake(faceRect.size.width * scale, faceRect.size.height * scale)
-            let stampOffset_x : CGFloat = (stampSize.width - faceRect.size.width) / 2
-            let stampOffset_y : CGFloat = (stampSize.height - faceRect.size.height) / 2
-            
-            //スタンプ画像のRect
-            var stampRect : CGRect = CGRectMake(faceRect.origin.x - stampOffset_x, faceRect.origin.y - stampOffset_y, faceRect.size.width * scale, faceRect.size.height * scale)
-
             //上下座標が逆なので逆転させる
-            stampRect.origin.y = image!.size.height - stampRect.origin.y - stampRect.size.height
+            faceRect.origin.y = image!.size.height - faceRect.origin.y - faceRect.size.height
 
             let kImage:UIImage? = UIImage(named: "kaeru")
-            //kImage?.drawInRect(stampRect)
             kImage?.drawInRect(faceRect)
         }
     }
