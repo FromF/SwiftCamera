@@ -32,19 +32,44 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
     }
     //MARK:-Button Action
     @IBAction func doCamera(sender: AnyObject) {
-        let sourceType:UIImagePickerControllerSourceType = UIImagePickerControllerSourceType.Camera
+        let alertController : UIAlertController = UIAlertController(title: "", message: "", preferredStyle: .ActionSheet)
         
-        // カメラやフォトライブラリが使用できなければ、何もせずに戻る
-        if !UIImagePickerController.isSourceTypeAvailable(sourceType) {
-            //NotSupport
-            return
+        let cancelAction:UIAlertAction = UIAlertAction(title: "Cancel",
+            style: UIAlertActionStyle.Cancel,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+        })
+        
+        let cameraAction:UIAlertAction = UIAlertAction(title: "Camera",
+            style: UIAlertActionStyle.Default,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                // カメラを起動する
+                let ipc : UIImagePickerController = UIImagePickerController()
+                ipc.sourceType = UIImagePickerControllerSourceType.Camera
+                ipc.delegate = self
+                self.presentViewController(ipc, animated: true, completion: nil)
+        })
+        let savedPhotosAlbumAction:UIAlertAction = UIAlertAction(title: "PhotoAlbum",
+            style: UIAlertActionStyle.Default,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                // フォトライブラリーを起動する
+                let ipc : UIImagePickerController = UIImagePickerController()
+                ipc.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
+                ipc.delegate = self
+                self.presentViewController(ipc, animated: true, completion: nil)
+        })
+        
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+            alertController.addAction(cameraAction)
         }
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
+            alertController.addAction(savedPhotosAlbumAction)
+        }
+        alertController.addAction(cancelAction)
         
-        // カメラを起動する
-        let ipc : UIImagePickerController = UIImagePickerController()
-        ipc.sourceType = sourceType
-        ipc.delegate = self
-        self.presentViewController(ipc, animated: true, completion: nil)
+        presentViewController(alertController, animated: true, completion: nil)
     }
     
     @IBAction func doStamp(sender: AnyObject) {
