@@ -32,16 +32,21 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
     }
     //MARK:-Button Action
     @IBAction func doCamera(sender: AnyObject) {
-        let alertController : UIAlertController = UIAlertController(title: "", message: "", preferredStyle: .ActionSheet)
+        //アクションコントローラーを追加
+        let alertController : UIAlertController = UIAlertController(title: "確認", message: "選択してください", preferredStyle: .ActionSheet)
         
-        let cancelAction:UIAlertAction = UIAlertAction(title: "Cancel",
+        //キャンセルを押した場合
+        let cancelAction:UIAlertAction = UIAlertAction(title: "キャンセル",
+            //キャンセルはスタイルをCancelにする
             style: UIAlertActionStyle.Cancel,
+            //アクションを書く
             handler:{
                 (action:UIAlertAction!) -> Void in
         })
-        
-        let cameraAction:UIAlertAction = UIAlertAction(title: "Camera",
+        //カメラを押した場合
+        let cameraAction:UIAlertAction = UIAlertAction(title: "カメラを選択する",
             style: UIAlertActionStyle.Default,
+            //アクションを書く
             handler:{
                 (action:UIAlertAction!) -> Void in
                 // カメラを起動する
@@ -50,8 +55,10 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
                 ipc.delegate = self
                 self.presentViewController(ipc, animated: true, completion: nil)
         })
-        let savedPhotosAlbumAction:UIAlertAction = UIAlertAction(title: "PhotoAlbum",
+        //フォトアルバムを押した場合
+        let savedPhotosAlbumAction:UIAlertAction = UIAlertAction(title: "フォトアルバムを選択する",
             style: UIAlertActionStyle.Default,
+            //アクションを書く
             handler:{
                 (action:UIAlertAction!) -> Void in
                 // フォトライブラリーを起動する
@@ -60,15 +67,19 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
                 ipc.delegate = self
                 self.presentViewController(ipc, animated: true, completion: nil)
         })
-        
+        //カメラが起動できるかどうかを確認
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+            //カメラが使用できる場合は、アラートに追加する
             alertController.addAction(cameraAction)
         }
+        //フォトアルバムが使用できるか確認
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
+            //フォトアルバムが使用できる場合は、アラートに追加する
             alertController.addAction(savedPhotosAlbumAction)
         }
+        //キャンセルのアクションをアラートに追加する
         alertController.addAction(cancelAction)
-        
+        //アラートコントローラーを表示する
         presentViewController(alertController, animated: true, completion: nil)
     }
     
@@ -106,9 +117,12 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
     }
     
     //MARK:-UIImagePickerControllerDelegate
+    //カメラ・フォトアルバムを終了したときに呼び出されるメソッド
+    //引数にinfoが渡される
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         // 撮影画像を取得
         image = convertImage(info[UIImagePickerControllerOriginalImage] as! UIImage)
+        //画面に配置したimagePictureにimageを渡す
         imagePicture.image = image
         
         //写真のメターデータを取得
@@ -154,9 +168,9 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
     //SNSシェア系
     @IBAction func doSaveImage(sender: AnyObject) {
         //let activityViewContoller : UIActivityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-        
+        //インスタンスを作成
         let activityViewContoller : UIActivityViewController = UIActivityViewController(activityItems:[saveImage!], applicationActivities: nil)
-        
+        //表示させる
         self.presentViewController(activityViewContoller, animated: true, completion: nil)
     }
 }
