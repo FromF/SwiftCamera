@@ -32,7 +32,10 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
     }
     //MARK:-Button Action
     @IBAction func doCamera(sender: AnyObject) {
+        print("カメラボタンが押されたよ！")
+        
         //アクションコントローラーを追加
+        //(option)
         let alertController : UIAlertController = UIAlertController(title: "確認", message: "選択してください", preferredStyle: .ActionSheet)
         
         //キャンセルを押した場合
@@ -42,6 +45,7 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
             //アクションを書く
             handler:{
                 (action:UIAlertAction!) -> Void in
+                print("キャンセルが押されたよ！")
         })
         //カメラを押した場合
         let cameraAction:UIAlertAction = UIAlertAction(title: "カメラを選択する",
@@ -50,7 +54,13 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
             handler:{
                 (action:UIAlertAction!) -> Void in
                 // カメラを起動する
+                //UIImagePickerControllerクラス
+                //let 名前:型　= インスタンス生成(option)
+                //初期設定　イニシャライザ
                 let ipc : UIImagePickerController = UIImagePickerController()
+                //インスタンス名.プロパティ名= 設定内容.Cameraにする
+                //sourceTypeを設定する
+                //UIImagePickerControllerSourceTypeで設定できる
                 ipc.sourceType = UIImagePickerControllerSourceType.Camera
                 ipc.delegate = self
                 self.presentViewController(ipc, animated: true, completion: nil)
@@ -61,10 +71,14 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
             //アクションを書く
             handler:{
                 (action:UIAlertAction!) -> Void in
+                //フォトライブラリーから説明しよう！
                 // フォトライブラリーを起動する
+                //最初は、例外処理は無視して書きましょう
                 let ipc : UIImagePickerController = UIImagePickerController()
                 ipc.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
+                //閉じる処理のときにdelegateが必要
                 ipc.delegate = self
+                //表示させる
                 self.presentViewController(ipc, animated: true, completion: nil)
         })
         //カメラが起動できるかどうかを確認
@@ -73,6 +87,7 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
             alertController.addAction(cameraAction)
         }
         //フォトアルバムが使用できるか確認
+        //アラートコントローラーを設定するときに、追加で書く
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
             //フォトアルバムが使用できる場合は、アラートに追加する
             alertController.addAction(savedPhotosAlbumAction)
@@ -82,7 +97,7 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
         //アラートコントローラーを表示する
         presentViewController(alertController, animated: true, completion: nil)
     }
-    
+    //写真加工
     @IBAction func doStamp(sender: AnyObject) {
         // 検出器生成
         let options:Dictionary = [CIDetectorAccuracy:CIDetectorAccuracyHigh]
@@ -96,7 +111,9 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
         UIGraphicsBeginImageContext(image!.size)
         image!.drawInRect(CGRectMake(0,0,image!.size.width,image!.size.height))
         // 検出されたデータを取得
+        //for分の説明が入る
         for var i:Int = 0 ; i < array.count ; i++ {
+            //arrayの説明も必要？
             let faceFeature:CIFaceFeature = array[i] as! CIFaceFeature
             drawMeganeImage(faceFeature)
         }
@@ -104,21 +121,34 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
         UIGraphicsEndImageContext()
         imagePicture.image = saveImage
     }
-    
+    //エフェクトをかけてみよう
+    //senderは自動で設定される
+    //説明は必要？
+    //AnyObject型　なんでも入る型
+    //(sender: AnyObject)は引数
+    //いろんなことが、自動で設定できるのがXcode
+    //何回も変換する
     @IBAction func doEffect(sender: AnyObject) {
+        //CIImageを生成
         let ciImage:CIImage = CIImage(CGImage: (image?.CGImage)!)
+        //フィルターの名前を設定
         let ciFilter:CIFilter = CIFilter(name: "CIPhotoEffectInstant")!
+         //ciImageをインプット画像にする
         ciFilter.setValue(ciImage, forKey: kCIInputImageKey)
+        //CIContextに変換
         let ciContext:CIContext = CIContext(options: nil)
+        //CGImageRefに変換
         let cgimg:CGImageRef = ciContext.createCGImage(ciFilter.outputImage!, fromRect:ciFilter.outputImage!.extent)
-        
+        //UIImageに変換
         saveImage = UIImage(CGImage: cgimg, scale: 1.0, orientation:UIImageOrientation.Up)
+        //imageに渡す
         imagePicture.image = saveImage
     }
     
     //MARK:-UIImagePickerControllerDelegate
     //カメラ・フォトアルバムを終了したときに呼び出されるメソッド
     //引数にinfoが渡される
+    //ここも最初に必要
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         // 撮影画像を取得
         image = convertImage(info[UIImagePickerControllerOriginalImage] as! UIImage)
@@ -138,12 +168,15 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
     }
     
     //MARK:-DrawStamp
+    //座標の変換
     func drawMeganeImage(faceFeature:CIFaceFeature) {
         if faceFeature.hasLeftEyePosition && faceFeature.hasRightEyePosition && faceFeature.hasMouthPosition {
             // 顔のサイズ情報を取得
             var faceRect:CGRect = faceFeature.bounds
             
             //上下座標が逆なので逆転させる
+            //そういうもの・・・・？
+            //他に使う場所はない。NextStepからきている
             faceRect.origin.y = image!.size.height - faceRect.origin.y - faceRect.size.height
 
             let kImage:UIImage? = UIImage(named: "kaeru")
@@ -167,7 +200,6 @@ class ViewController: UIViewController , UINavigationControllerDelegate , UIImag
     
     //SNSシェア系
     @IBAction func doSaveImage(sender: AnyObject) {
-        //let activityViewContoller : UIActivityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         //インスタンスを作成
         let activityViewContoller : UIActivityViewController = UIActivityViewController(activityItems:[saveImage!], applicationActivities: nil)
         //表示させる
